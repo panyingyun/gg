@@ -7,7 +7,7 @@ VERSION    := $(shell git describe --tags --always --dirty)
 LDFLAGS := -X 'main.GitCommit=$(GIT_COMMIT)' \
            -X 'main.BuildTime=$(BUILD_TIME)' \
            -X 'main.Version=$(VERSION)'
-		   
+
 .PHONY: env  clean lint build
 
 all: env  clean lint build
@@ -24,7 +24,7 @@ env:
 build:
 	go mod tidy
 	gofumpt -l -w .
-	CGO_ENABLED=0 go build  -ldflags "$(LDFLAGS)" -v .
+	CGO_ENABLED=0 go build  -trimpath -ldflags "-s -w" -ldflags "$(LDFLAGS)" -v .
 	
 clean:
 	go clean -i .
@@ -32,5 +32,5 @@ clean:
 run:
 	go mod tidy
 	gofumpt -l -w .
-	CGO_ENABLED=0 go build  -ldflags "$(LDFLAGS)" -v .
+	CGO_ENABLED=0 go build  -trimpath -ldflags "-s -w" -ldflags "$(LDFLAGS)" -v .
 	./gg

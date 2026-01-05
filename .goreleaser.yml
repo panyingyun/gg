@@ -4,14 +4,14 @@
 version: 2
 
 # 项目名称
-project_name: gogitignore
+project_name: gg
 
 # 发布配置
 release:
   # GitHub发布配置
   github:
     owner: panyingyun  # 修改为你的GitHub用户名
-    name: gogitignore     # 修改为你的仓库名
+    name: gg     # 修改为你的仓库名
   
   # 发布模式：替换或跳过已存在的发布
   mode: replace

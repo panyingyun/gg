@@ -98,6 +98,5 @@ yarn-error.log*
 # OS
 .DS_Store
 Thumbs.db
-test_dir/
-gogitignore
+test_dir/   #测试目录
 gg

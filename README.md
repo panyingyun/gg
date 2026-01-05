@@ -1,4 +1,4 @@
-# gogitignore
+# gg
 
 一个简单易用的 `.gitignore` 文件管理工具，支持快速生成各种语言的 gitignore 模板，以及添加自定义文件/文件夹到忽略列表。
 
@@ -22,18 +22,23 @@
 
 ## 安装
 
+## 使用 go install（推荐）
+
+```bash
+go install github.com/panyingyun/gg@latest
+```
 ### 从源码编译
 
 ```bash
-git clone https://github.com/panyingyun/gogitignore.git
-cd gogitignore
+git clone https://github.com/panyingyun/gg.git
+cd gg
 make build
 sudo cp gg /usr/local/bin
 ```
 
 ### 从 Release 下载
 
-访问 [Releases](https://github.com/panyingyun/gogitignore/releases) 页面下载对应平台的二进制文件。
+访问 [Releases](https://github.com/panyingyun/gg/releases) 页面下载对应平台的二进制文件。
 
 ## 使用方法
 
