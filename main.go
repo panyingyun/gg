@@ -104,14 +104,18 @@ func containsIgnore(content, pattern string) bool {
 
 // 生成模板的.gitignore
 func generateTemplate(lang string) error {
-	//检查编程语言是否支持
+	// 检查编程语言是否支持
 	lang = strings.ToLower(lang)
 	template, exists := templates[lang]
 	if !exists {
-		return fmt.Errorf("不支持的语言模板: %s\n支持的语言: %s", lang, strings.Join(templates, ", "))
+		keys := make([]string, 0, len(templates))
+		for k := range templates {
+			keys = append(keys, strings.ToLower(k))
+		}
+		return fmt.Errorf("不支持的语言模板: %s\n支持的语言: %s", lang, strings.Join(keys, ", "))
 	}
 
-	//获取当前目录并检查.gitignore文件是否存在
+	// 获取当前目录并检查.gitignore文件是否存在
 	currentDir, err := os.Getwd()
 	if err != nil {
 		return fmt.Errorf("获取当前目录失败: %v", err)
