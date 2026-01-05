@@ -18,6 +18,8 @@
 - `c` - C 语言
 - `matlab` - MATLAB 项目
 
+可以支持更多模板，当前工作太多没时间加：https://github.com/github/gitignore
+
 ## 安装
 
 ### 从源码编译
@@ -94,7 +96,7 @@ $ gg -f config.local.yaml
 
 ## 许可证
 
-本项目采用 MIT 许可证，详见 [LICENSE](LICENSE) 文件。
+本项目采用 GPLv3 许可证，详见 [LICENSE](LICENSE) 文件。
 
 ## 贡献
 

@@ -1,6 +1,7 @@
 package main
 
 import (
+	_ "embed"
 	"flag"
 	"fmt"
 	"os"
@@ -15,185 +16,32 @@ var (
 	BuildTime = "unknown"
 )
 
+//go:embed tpl/go.tpl
+var goTemplate string
+
+//go:embed tpl/react.tpl
+var reactTemplate string
+
+//go:embed tpl/c++.tpl
+var cppTemplate string
+
+//go:embed tpl/c.tpl
+var cTemplate string
+
+//go:embed tpl/matlab.tpl
+var matlabTemplate string
+
+//go:embed tpl/rust.tpl
+var rustTemplate string
+
 // 各种语言的.gitignore模板
 var templates = map[string]string{
-	"go": `# Binaries for programs and plugins
-*.exe
-*.exe~
-*.dll
-*.so
-*.dylib
-
-# Test binary, built with 'go test -c'
-*.test
-
-# Output of the go coverage tool
-*.out
-
-# Dependency directories
-vendor/
-
-# Go workspace file
-go.work
-
-# IDE
-.idea/
-.vscode/
-*.swp
-*.swo
-*~
-
-# Build output
-dist/
-build/
-bin/
-`,
-	"react": `# Dependencies
-node_modules/
-/.pnp
-.pnp.js
-
-# Testing
-/coverage
-
-# Production
-/build
-/dist
-
-# Misc
-.DS_Store
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-# IDE
-.idea/
-.vscode/
-*.swp
-*.swo
-*~
-
-# OS
-.DS_Store
-Thumbs.db
-`,
-	"c++": `# Compiled Object files
-*.slo
-*.lo
-*.o
-*.obj
-
-# Precompiled Headers
-*.gch
-*.pch
-
-# Compiled Dynamic libraries
-*.so
-*.dylib
-*.dll
-
-# Fortran module files
-*.mod
-*.smod
-
-# Compiled Static libraries
-*.lai
-*.la
-*.a
-*.lib
-
-# Executables
-*.exe
-*.out
-*.app
-
-# Build directories
-build/
-dist/
-cmake-build-*/
-
-# IDE
-.idea/
-.vscode/
-*.swp
-*.swo
-*~
-
-# OS
-.DS_Store
-Thumbs.db
-`,
-	"c": `# Compiled Object files
-*.o
-*.obj
-
-# Compiled Dynamic libraries
-*.so
-*.dylib
-*.dll
-
-# Compiled Static libraries
-*.a
-*.lib
-
-# Executables
-*.exe
-*.out
-*.app
-
-# Build directories
-build/
-dist/
-
-# IDE
-.idea/
-.vscode/
-*.swp
-*.swo
-*~
-
-# OS
-.DS_Store
-Thumbs.db
-`,
-	"matlab": `# MATLAB
-*.asv
-*.m~
-*.autosave
-
-# MATLAB Compiler
-*.ctf
-
-# MATLAB figures
-*.fig
-
-# MATLAB data files
-*.mat
-
-# MATLAB code generation
-codegen/
-slprj/
-
-# Simulink
-*.slxc
-*.slx.autosave
-
-# IDE
-.idea/
-.vscode/
-*.swp
-*.swo
-*~
-
-# OS
-.DS_Store
-Thumbs.db
-`,
+	"go":     goTemplate,
+	"react":  reactTemplate,
+	"c++":    cppTemplate,
+	"c":      cTemplate,
+	"matlab": matlabTemplate,
+	"rust":   rustTemplate,
 }
 
 // 查找.gitignore文件，从当前目录向上查找
@@ -256,15 +104,19 @@ func containsIgnore(content, pattern string) bool {
 
 // 生成模板的.gitignore
 func generateTemplate(lang string) error {
-	template, exists := templates[strings.ToLower(lang)]
+	//检查编程语言是否支持
+	lang = strings.ToLower(lang)
+	template, exists := templates[lang]
 	if !exists {
-		return fmt.Errorf("不支持的语言模板: %s\n支持的语言: go, react, c++, c, matlab", lang)
+		return fmt.Errorf("不支持的语言模板: %s\n支持的语言: %s", lang, strings.Join(templates, ", "))
 	}
 
-	gitignorePath, err := findGitignoreFile()
+	//获取当前目录并检查.gitignore文件是否存在
+	currentDir, err := os.Getwd()
 	if err != nil {
-		return fmt.Errorf("查找.gitignore文件失败: %v", err)
+		return fmt.Errorf("获取当前目录失败: %v", err)
 	}
+	gitignorePath := filepath.Join(currentDir, ".gitignore")
 
 	existingContent, err := readGitignore(gitignorePath)
 	if err != nil {
@@ -366,6 +218,7 @@ func main() {
 		flag.PrintDefaults()
 		fmt.Fprintf(os.Stderr, "\n示例:\n")
 		fmt.Fprintf(os.Stderr, "  %s go              # 生成Go模板的.gitignore\n", os.Args[0])
+		fmt.Fprintf(os.Stderr, "  %s rust            # 生成Rust模板的.gitignore\n", os.Args[0])
 		fmt.Fprintf(os.Stderr, "  %s react           # 生成React模板的.gitignore\n", os.Args[0])
 		fmt.Fprintf(os.Stderr, "  %s c++             # 生成C++模板的.gitignore\n", os.Args[0])
 		fmt.Fprintf(os.Stderr, "  %s c               # 生成C模板的.gitignore\n", os.Args[0])
