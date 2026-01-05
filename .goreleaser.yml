@@ -37,7 +37,7 @@ builds:
     main: .
     
     # 二进制文件名称
-    binary: gogitignore
+    binary: gg
     
     # 构建命令
     goos:
