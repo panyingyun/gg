@@ -1,0 +1,152 @@
+# GoReleaser 配置文件
+# 用于自动化构建和发布多个平台版本
+
+version: 2
+
+# 项目名称
+project_name: gogitignore
+
+# 发布配置
+release:
+  # GitHub发布配置
+  github:
+    owner: panyingyun  # 修改为你的GitHub用户名
+    name: gogitignore     # 修改为你的仓库名
+  
+  # 发布模式：替换或跳过已存在的发布
+  mode: replace
+  
+  # 发布前执行的命令（可选）
+  # prerelease: auto  # 自动检测是否为预发布版本
+  
+  # 发布说明模板
+  header: |
+    ## {{ .ProjectName }} {{ .Tag }}
+    
+    发布版本 {{ .Tag }}
+    
+  footer: |
+    ---
+    
+    由 [GoReleaser](https://github.com/goreleaser/goreleaser) 自动生成
+
+# 构建配置 - 支持多个平台和架构
+builds:
+  - id: default
+    # 主程序入口
+    main: .
+    
+    # 二进制文件名称
+    binary: gogitignore
+    
+    # 构建命令
+    goos:
+      - linux
+      - windows
+      - darwin
+      - freebsd
+      - openbsd
+      - netbsd
+    
+    # 架构
+    goarch:
+      - amd64
+      - arm64
+      - arm
+      - 386
+    
+    # ARM架构版本（适用于arm和arm64）
+    goarm:
+      - "6"
+      - "7"
+    
+    # 环境变量
+    env:
+      - CGO_ENABLED=0
+    
+    # 构建标志
+    flags:
+      - -trimpath
+    
+    # LDFlags
+    ldflags:
+      - -s -w
+      - -X main.version={{.Version}}
+      - -X main.commit={{.Commit}}
+      - -X main.date={{.Date}}
+    
+    # 忽略错误
+    ignore:
+      - goos: windows
+        goarch: arm
+      - goos: windows
+        goarch: arm64
+      - goos: freebsd
+        goarch: arm
+      - goos: openbsd
+        goarch: arm
+      - goos: netbsd
+        goarch: arm
+
+# 归档配置
+archives:
+  - id: default
+    # 文件名模板
+    name_template: "{{ .ProjectName }}_{{ .Os }}_{{ .Arch }}{{ if .Arm }}v{{ .Arm }}{{ end }}"
+    
+    # 包含的文件
+    files:
+      - LICENSE
+      - README.md
+
+# 校验和配置
+checksum:
+  name_template: "{{ .ProjectName }}_{{ .Version }}_checksums.txt"
+  algorithm: sha256
+
+# 快照配置（用于测试）
+snapshot: {}
+
+# Changelog配置
+changelog:
+  # 使用git日志生成changelog
+  use: git
+  # 过滤提交信息
+  filters:
+    exclude:
+      - "^docs:"
+      - "^test:"
+      - "^chore:"
+
+# 发布钩子（可选）
+# hooks:
+#   pre:
+#     - cmd: echo "发布前执行"
+#   post:
+#     - cmd: echo "发布后执行"
+
+# Docker配置（可选，如果需要发布Docker镜像）
+# dockers:
+#   - goos: linux
+#     goarch: amd64
+#     image_templates:
+#       - "your-registry/gogitignore:{{ .Tag }}"
+#       - "your-registry/gogitignore:latest"
+#     dockerfile: Dockerfile
+
+# Homebrew配置（可选，如果需要发布到Homebrew）
+# brews:
+#   - name: gogitignore
+#     homepage: https://github.com/your-username/gogitignore
+#     description: "自动化gitignore管理工具"
+#     license: "MIT"
+#     test: |
+#       system "#{bin}/gogitignore --version"
+
+# Scoop配置（可选，如果需要发布到Scoop）
+# scoops:
+#   - name: gogitignore
+#     homepage: https://github.com/your-username/gogitignore
+#     description: "自动化gitignore管理工具"
+#     license: "MIT"
+

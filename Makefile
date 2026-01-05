@@ -7,6 +7,9 @@ env:
 	GOPROXY=https://goproxy.cn/,direct go install -v github.com/incu6us/goimports-reviser/v3@latest
 	@echo "=========install gofmt ==========="
 	GOPROXY=https://goproxy.cn/,direct go install mvdan.cc/gofumpt@latest
+	@echo "=========install goreleaser ==========="
+	GOPROXY=https://goproxy.cn/,direct go install github.com/goreleaser/goreleaser/v2@latest
+
 
 build:
 	go mod tidy
