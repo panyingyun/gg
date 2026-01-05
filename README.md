@@ -28,6 +28,7 @@
 git clone https://github.com/panyingyun/gogitignore.git
 cd gogitignore
 make build
+sudo cp gg /usr/local/bin
 ```
 
 ### 从 Release 下载
