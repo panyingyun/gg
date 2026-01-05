@@ -8,6 +8,13 @@ import (
 	"strings"
 )
 
+// 这些变量将在编译时通过 -ldflags 注入
+var (
+	Version   = "v0.0.0"
+	GitCommit = "unknown"
+	BuildTime = "unknown"
+)
+
 // 各种语言的.gitignore模板
 var templates = map[string]string{
 	"go": `# Binaries for programs and plugins
@@ -365,10 +372,19 @@ func main() {
 		fmt.Fprintf(os.Stderr, "  %s matlab          # 生成MATLAB模板的.gitignore\n", os.Args[0])
 		fmt.Fprintf(os.Stderr, "  %s -f dir          # 添加忽略文件夹\n", os.Args[0])
 		fmt.Fprintf(os.Stderr, "  %s -f file         # 添加忽略文件\n", os.Args[0])
+		fmt.Fprintf(os.Stderr, "  %s -v              # 显示版本号\n", os.Args[0])
 	}
 
+	versionFlag := flag.Bool("v", false, "显示版本号")
 	fileFlag := flag.Bool("f", false, "添加文件或文件夹到.gitignore")
 	flag.Parse()
+
+	if *versionFlag {
+		fmt.Println("Version: ", Version)
+		fmt.Println("BuildTime: ", BuildTime)
+		fmt.Println("GitCommit: ", GitCommit)
+		os.Exit(0)
+	}
 
 	if flag.NArg() == 0 {
 		flag.Usage()

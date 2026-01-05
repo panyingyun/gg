@@ -71,9 +71,9 @@ builds:
     # LDFlags
     ldflags:
       - -s -w
-      - -X main.version={{.Version}}
-      - -X main.commit={{.Commit}}
-      - -X main.date={{.Date}}
+      - -X main.Version={{.Version}}
+      - -X main.GitCommit={{.Commit}}
+      - -X main.BuildTime={{.Date}}
     
     # 忽略错误
     ignore:
@@ -117,36 +117,4 @@ changelog:
       - "^docs:"
       - "^test:"
       - "^chore:"
-
-# 发布钩子（可选）
-# hooks:
-#   pre:
-#     - cmd: echo "发布前执行"
-#   post:
-#     - cmd: echo "发布后执行"
-
-# Docker配置（可选，如果需要发布Docker镜像）
-# dockers:
-#   - goos: linux
-#     goarch: amd64
-#     image_templates:
-#       - "your-registry/gogitignore:{{ .Tag }}"
-#       - "your-registry/gogitignore:latest"
-#     dockerfile: Dockerfile
-
-# Homebrew配置（可选，如果需要发布到Homebrew）
-# brews:
-#   - name: gogitignore
-#     homepage: https://github.com/your-username/gogitignore
-#     description: "自动化gitignore管理工具"
-#     license: "MIT"
-#     test: |
-#       system "#{bin}/gogitignore --version"
-
-# Scoop配置（可选，如果需要发布到Scoop）
-# scoops:
-#   - name: gogitignore
-#     homepage: https://github.com/your-username/gogitignore
-#     description: "自动化gitignore管理工具"
-#     license: "MIT"
-
+      - "^update:"
