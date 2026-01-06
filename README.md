@@ -22,12 +22,18 @@
 
 ## 安装
 
-## 使用 go install（推荐）
+### 方法一：下载最新的release包 （推荐）
+
+- https://github.com/panyingyun/gg/releases
+
+### 方法二：使用 go install（推荐）
 
 ```bash
 go install github.com/panyingyun/gg@latest
 ```
-### 从源码编译
+安装完成后，确保 `$GOPATH/bin` 或 `$HOME/go/bin` 在你的 `PATH` 环境变量中，然后就可以直接使用 `gg` 命令了。
+
+### 方法三：从源码编译
 
 ```bash
 git clone https://github.com/panyingyun/gg.git
