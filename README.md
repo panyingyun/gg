@@ -12,6 +12,7 @@
 
 ## 支持的语言模板
 
+- `python` - Python 语言
 - `go` - Go 语言
 - `react` - React 项目
 - `c++` - C++ 项目
@@ -51,6 +52,9 @@ sudo cp gg /usr/local/bin
 ### 生成语言模板
 
 ```bash
+# 生成 Python 模板
+gg go
+
 # 生成 Go 模板
 gg go
 
