@@ -34,6 +34,9 @@ var matlabTemplate string
 //go:embed tpl/rust.tpl
 var rustTemplate string
 
+//go:embed tpl/python.tpl
+var pythonTemplate string
+
 // 各种语言的.gitignore模板
 var templates = map[string]string{
 	"go":     goTemplate,
@@ -42,6 +45,7 @@ var templates = map[string]string{
 	"c":      cTemplate,
 	"matlab": matlabTemplate,
 	"rust":   rustTemplate,
+	"python": pythonTemplate,
 }
 
 // 查找.gitignore文件，从当前目录向上查找
@@ -222,6 +226,7 @@ func main() {
 		flag.PrintDefaults()
 		fmt.Fprintf(os.Stderr, "\n示例:\n")
 		fmt.Fprintf(os.Stderr, "  %s go              # 生成Go模板的.gitignore\n", os.Args[0])
+		fmt.Fprintf(os.Stderr, "  %s python          # 生成Python模板的.gitignore\n", os.Args[0])
 		fmt.Fprintf(os.Stderr, "  %s rust            # 生成Rust模板的.gitignore\n", os.Args[0])
 		fmt.Fprintf(os.Stderr, "  %s react           # 生成React模板的.gitignore\n", os.Args[0])
 		fmt.Fprintf(os.Stderr, "  %s c++             # 生成C++模板的.gitignore\n", os.Args[0])
